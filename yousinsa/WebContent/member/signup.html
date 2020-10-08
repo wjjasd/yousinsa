@@ -1,0 +1,134 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
+
+
+
+
+<title>YOUSINSA 회원가입</title>
+
+<link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+<link href="../css/signup.css" rel="stylesheet">
+
+	<script type="text/javascript">
+
+	$(function() {
+		$('#inputpw1').keyup(function() {
+			$('.pwcheck').html('');
+		});
+		// keyup : 키보드의 키를 눌렀다 뗄 때 요소에 이벤트를 발생
+
+		$('#user_password').keyup(function(){
+				pw1 = $('#user_password1').val()
+				pw2 = $('#user_password').val()
+
+					if (pw1 == pw2) {
+						$('.pwcheck').html('<font color=green size="2">비밀번호가 같습니다</font><br>')
+					}else if(pw1.length == 0){
+						$('.pwcheck').html('');	
+					}else {
+						$('.pwcheck').html('<font color=red size="2">비밀번호가 다릅니다!</font><br>')
+					}
+			});
+		
+		$('#user_id').keyup(function(){
+				$.ajax({
+					url: "../js/doublecheck.jsp",
+					data: {
+						user_id: $('#user_id').val()
+					},
+					success : function(idcheck2){
+						$('#idcheck').html(idcheck2);
+					}
+				
+				})//ajax
+			});//keyup
+			
+			
+			$('#sign').click(function(){
+				$.ajax({
+					url: "../js/signup.jsp",
+					data: {
+						user_id: $('#user_id').val(),
+						user_password: $('#user_password').val(),
+						user_name: $('#user_name').val(),
+						user_email: $('#user_email').val(),
+						user_contact: $('#user_contact').val(),
+						user_address: $('#user_address').val(),
+						user_address2: $('#user_address2').val(),
+						user_address3: $('#user_address3').val()
+					},
+					success : function(check){
+						alert(check);
+						document.location.href="login.html";
+					}
+				
+				})//ajax
+			});//click
+	});//function
+	
+	$(function() { 
+		$("#postcodify_search_button").postcodifyPopUp(); 
+	}); 
+	
+
+</script>
+
+
+</head>
+<body>
+
+  <div class="wrapper">
+	<div class="form-login">
+      <h2 class="title">YOUSINSA</h2>
+      <h5 class="title">회원가입</h5>
+      <br>
+       
+       	아이디* 
+      	<input type="text" id="user_id" placeholder="아이디 입력(5~11자)" required="" autofocus="" style="padding:10px;" size=38/>
+      	<div id="idcheck" style="margin-bottom:15px;"></div>
+      	
+      	
+		
+     	비밀번호*
+      	<input type="password" id="user_password1" placeholder="비밀번호 입력" required="" autofocus="" style="margin-bottom:5px;padding:10px;" size=38/>
+      	<input type="password" id="user_password" placeholder="비밀번호 확인" required="" style=" padding:10px;" size=38/>      
+		<div class="pwcheck" style="margin-bottom:15px;"></div>
+		
+		이름*
+		<input type="text" id="user_name" name="user_name" placeholder="이름" required="" autofocus="" style="margin-bottom:20px; padding:10px;" size=38/>
+
+		이메일
+		<input type="text" id="user_email" name="user_email" placeholder="Email@yousinsa.com" style="margin-bottom:20px; padding:10px;" size=38/>
+		
+		연락처*
+		<input type="text" id="user_contact" name="user_contact" placeholder="연락처" required="" autofocus="" style="margin-bottom:20px; padding:10px;" size=38/>
+
+		주소*<br>
+		<p class="post1">우편주소</p>
+		<input type="text" class="postcodify_postcode5" id="user_address" placeholder="" required="" autofocus="" size=10/>
+		<button id="postcodify_search_button">검색</button><br />
+		
+		<p class="post2">도로명주소</p>
+		<input type="text" class="postcodify_address" id="user_address2" placeholder="" required="" autofocus="" size=40/>
+	
+		<p class="post3">상세주소</p>
+		<input type="text" class="postcodify_details" id="user_address3" placeholder="" required="" autofocus="" style="margin-bottom:15px;" size=40/>
+		
+		
+
+      <input value="회원가입" id="sign" class="btn btn-lg btn-primary btn-block" type="submit" style="background-color:gray;">
+
+  </div>
+  </div>
+  
+</body>
+</html>

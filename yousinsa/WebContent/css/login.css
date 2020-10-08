@@ -1,0 +1,43 @@
+@charset "EUC-KR";
+
+
+body {
+	background: #eee !important;	
+}
+
+a{
+	text-decoration: none;
+	color: gray;
+}
+a:hover{
+	text-decoration: none;
+	color: black;
+}
+
+p{
+	text-align : center;
+	margin-top: 10px;
+}
+
+.wrapper {	
+	margin-top: 80px;
+  margin-bottom: 80px;
+}
+
+
+.title{
+	text-align : center;
+}
+
+.form-login {
+  max-width: 380px;
+  height: 320px;
+  padding: 15px 35px 20px;
+  margin: 0 auto;
+  background-color: #fff;
+  border: 1px solid rgba(0,0,0,0.1);  
+}
+
+#check{
+	text-align: center;	
+}
