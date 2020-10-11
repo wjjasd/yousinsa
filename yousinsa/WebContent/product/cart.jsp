@@ -1,3 +1,7 @@
+<%@page import="java.util.Dictionary"%>
+<%@page import="java.text.DecimalFormat"%>
+<%@page import="bean.ProductVO"%>
+<%@page import="bean.ProductDAO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="bean.CartVO"%>
 <%@page import="bean.CartDAO"%>
@@ -7,7 +11,7 @@
 //로그인 아이디 체크
 String user_id = null;
 try {
-	user_id = (String) session.getAttribute("user_id");
+	user_id = (String)session.getAttribute("user_id");
 } catch (Exception e) {
 	user_id = null;
 }
@@ -16,9 +20,25 @@ try {
 CartDAO dao = new CartDAO();
 CartVO vo = new CartVO();
 
-ArrayList<CartVO> list = (ArrayList<CartVO>)dao.getUserCart("1");
+ArrayList<CartVO> list = (ArrayList<CartVO>)dao.getUserCart(user_id);
 int itemCount = list.size();
-int priceSum = 0;
+
+//상품정보 가져오기
+ProductDAO pdao = new ProductDAO();
+ArrayList<ProductVO> productList = new ArrayList<ProductVO>();
+for(int i = 0; i < itemCount; i++){
+	productList.add(pdao.productsearch(list.get(i).getProduct_id()));
+}
+
+//총 수량, 총 금액 계산
+int quantitySum = 0;
+int moneySum = 0;
+for(int i = 0; i < itemCount; i++){
+	quantitySum += list.get(i).getCart_pcount();
+	moneySum += (list.get(i).getCart_pcount() * productList.get(i).getProduct_price());
+}
+DecimalFormat formatter = new DecimalFormat("###,###");
+String moneyFormate = formatter.format(moneySum);
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -91,34 +111,34 @@ int priceSum = 0;
 			</button>
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ml-auto">
+					<li class="nav-item"><a class="nav-link" href="../index.jsp">홈<span
+							class="sr-only">(current)</span></a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="../index.jsp">홈<span class="sr-only">(current)</span></a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="bbs/allreview.jsp">구매후기</a></li>
+						href="../bbs/allreview.jsp">구매후기</a></li>
 					<%
 						if (user_id == null) {
 					%>
 					<li class="nav-item"><a class="nav-link"
-						href="member/login.html">로그인</a></li>
+						href="../member/login.html">로그인</a></li>
 					<%
 						} else if (user_id == "admin") {
 					%>
 					<li class="nav-item"><a class="nav-link" id="logout"
-						href="index.jsp">로그아웃</a></li>
-					<li class="nav-item  active"><a class="nav-link"
-						href="product/cart.jsp">장바구니</a></li>
+						href="../logout.jsp">로그아웃</a></li>
+					<li class="nav-item active"><a class="nav-link"
+						href="cart.jsp">장바구니</a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="product/paymenthistory.jsp">결제내역</a></li>
+						href="paymenthistory.jsp">결제내역</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">상품등록</a></li>
 					<%
 						} else {
 					%>
 					<li class="nav-item"><a class="nav-link" id="logout"
-						href="index.jsp">로그아웃</a></li>
+						href="../logout.jsp">로그아웃</a></li>
 					<li class="nav-item  active"><a class="nav-link"
-						href="product/cart.jsp">장바구니</a></li>
+						href="cart.jsp">장바구니</a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="product/paymenthistory.jsp">결제내역</a></li>
+						href="paymenthistory.jsp">결제내역</a></li>
 					<%
 						}
 					%>
@@ -144,7 +164,7 @@ int priceSum = 0;
 						<ul class="list-group list-group-flush">
 							<li
 								class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-								총 상품 수량: <span>2</span>개
+								총 상품 수량: <span><%= quantitySum %></span>개
 							</li>
 							<li
 								class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
@@ -152,7 +172,7 @@ int priceSum = 0;
 									<strong>총 결제 금액:</strong> <strong>
 										<p class="mb-0">(including VAT)</p>
 									</strong>
-								</div> <span><strong>20,000</strong></span>원
+								</div> <span><strong><%=moneyFormate %></strong></span>원
 							</li>
 						</ul>
 
@@ -180,7 +200,7 @@ int priceSum = 0;
 							<div class="col-md-5 col-lg-3 col-xl-3">
 								<div class="view zoom overlay z-depth-1 rounded mb-3 mb-md-0">
 									<img class="img-fluid w-100"
-										src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12a.jpg"
+										src=<%=productList.get(i).getProduct_image()%>
 										alt="Sample">
 								</div>
 							</div>
@@ -188,16 +208,13 @@ int priceSum = 0;
 								<div>
 									<div class="d-flex justify-content-between">
 										<div>
-											<% 
-											  // ProductDAO pDao = new ProductDAO();
-											  // ProductVO pvo = pDao.getProduct(list.get(i).getProduct_id());
-											 %>
-											<h5 id='product'>상품명</h5>
+											
+											<h5 id='product'><%=productList.get(i).getProduct_name()%></h5>
 											<p class="mb-3 text-muted text-uppercase small">상품번호 -
 												<%= list.get(i).getProduct_id() %></p>
-											<p class="mb-2 text-muted text-uppercase small">Color:
-												blue</p>
-											<p class="mb-3 text-muted text-uppercase small">Size: M</p>
+											<p class="mb-2 text-muted text-uppercase small">
+												<%= productList.get(i).getProduct_explanation() %></p>
+											
 										</div>
 										<div>
 											<div class="def-number-input number-input safari_only mb-0 w-100">
@@ -207,12 +224,14 @@ int priceSum = 0;
 									</div>
 									<div class="d-flex justify-content-between align-items-center">
 										<div>
-											<a href="#!" type="button"
+											<a href="deleteCartItem.jsp?pid=<%=list.get(i).getProduct_id()%>" type="button"
 												class="card-link-secondary small text-uppercase mr-3"><i
-												class="fas fa-trash-alt mr-1"></i> Remove item </a>
+												class="fas fa-trash-alt mr-1"></i> 항목 삭제하기 </a>
 										</div>
 										<p class="mb-0">
-											<span><strong>가격: <a id='price'>20,000</a> 원
+											<span><strong>가격: <a id='price'>
+												<%= list.get(i).getCart_pcount() %>개 x <%=formatter.format(productList.get(i).getProduct_price()) %> ￦
+												= <%= formatter.format(list.get(i).getCart_pcount() * productList.get(i).getProduct_price())%></a> ￦
 											</strong></span>
 										</p>
 									</div>

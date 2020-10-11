@@ -123,7 +123,7 @@ if (session.getAttribute("user_id") != null) {
 						} else if (user_id == "admin") {
 					%>
 					<li class="nav-item"><a class="nav-link" id="logout"
-						href="index.jsp">로그아웃</a></li>
+						href="logout.jsp">로그아웃</a></li>
 					<li class="nav-item"><a class="nav-link"
 						href="product/cart.jsp">장바구니</a></li>
 					<li class="nav-item"><a class="nav-link"

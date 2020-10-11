@@ -4,8 +4,7 @@
 //로그인 아이디 체크
 String user_id = null;
 try {
-	user_id = (String) session.getAttribute("user_id");
-	System.out.print(user_id);
+	user_id = (String)session.getAttribute("user_id");
 } catch (Exception e) {
 	user_id = null;
 }
@@ -80,17 +79,17 @@ try {
 					<li class="nav-item"><a class="nav-link" href="../index.jsp">홈<span
 							class="sr-only">(current)</span></a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="bbs/allreview.jsp">구매후기</a></li>
+						href="../bbs/allreview.jsp">구매후기</a></li>
 					<%
 						if (user_id == null) {
 					%>
 					<li class="nav-item"><a class="nav-link"
-						href="member/login.jsp">로그인</a></li>
+						href="../member/login.jsp">로그인</a></li>
 					<%
 						} else if (user_id == "admin") {
 					%>
 					<li class="nav-item"><a class="nav-link" id="logout"
-						href="index.jsp">로그아웃</a></li>
+						href="../logout.jsp">로그아웃</a></li>
 					<li class="nav-item"><a class="nav-link"
 						href="cart.jsp">장바구니</a></li>
 					<li class="nav-item  active"><a class="nav-link"
@@ -100,7 +99,7 @@ try {
 						} else {
 					%>
 					<li class="nav-item"><a class="nav-link" id="logout"
-						href="index.jsp">로그아웃</a></li>
+						href="../logout.jsp">로그아웃</a></li>
 					<li class="nav-item"><a class="nav-link"
 						href="cart.jsp">장바구니</a></li>
 					<li class="nav-item  active"><a class="nav-link"

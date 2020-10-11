@@ -24,16 +24,17 @@ public class PaymentDAO {
 	}
 
 	// 결제 항목 추가
-	public boolean addPayment(String userId, int price, Date date, String destination) throws Exception {
+	public boolean addPayment(String paymentId,String userId, int price, String date, String destination) throws Exception {
 		con = dbcp.getConnection();
 		boolean result = false;
-		String sql = "insert into payments where values (null, ?, ?, ?, ?, 'n')";
+		String sql = "insert into payments values (?, ?, ?, ?, ?, -1)";
 		PreparedStatement ps = con.prepareStatement(sql);
 		// 4.sql문 실행
-		ps.setString(1, userId);
-		ps.setInt(2, price);
-		ps.setDate(3, date);
-		ps.setString(4, destination);
+		ps.setString(1, paymentId);
+		ps.setString(2, userId);
+		ps.setInt(3, price);
+		ps.setString(4, date);
+		ps.setString(5, destination);
 		int row = ps.executeUpdate();
 
 		if (row == 1) {

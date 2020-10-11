@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,7 +40,7 @@
 		
 		$('#user_id').keyup(function(){
 				$.ajax({
-					url: "../js/doublecheck.jsp",
+					url: "doublecheck.jsp",
 					data: {
 						user_id: $('#user_id').val()
 					},
@@ -55,7 +54,7 @@
 			
 			$('#sign').click(function(){
 				$.ajax({
-					url: "../js/signup.jsp",
+					url: "signup.jsp",
 					data: {
 						user_id: $('#user_id').val(),
 						user_password: $('#user_password').val(),

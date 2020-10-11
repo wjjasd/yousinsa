@@ -1,7 +1,7 @@
 package bean;
 
 public class ProductVO {
-	String product_id;
+	int product_id;
 	String product_name;
 	String product_title;
 	String product_explanation;
@@ -9,11 +9,11 @@ public class ProductVO {
 	int product_inventory;
 	String product_image;
 
-	public String getProduct_id() {
+	public int getProduct_id() {
 		return product_id;
 	}
 
-	public void setProduct_id(String product_id) {
+	public void setProduct_id(int product_id) {
 		this.product_id = product_id;
 	}
 
