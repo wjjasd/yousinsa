@@ -9,7 +9,7 @@ public class PaymentHistoryVO {
 	private int product_id;
 	private int cart_pcount;
 	private String cart_review_status;
-	private int payment_id;
+	private String payment_id;
 	private int payment_price;
 	private Date payment_date;
 	private String payment_destination;
@@ -44,10 +44,10 @@ public class PaymentHistoryVO {
 	public void setCart_review_status(String cart_review_status) {
 		this.cart_review_status = cart_review_status;
 	}
-	public int getPayment_id() {
+	public String getPayment_id() {
 		return payment_id;
 	}
-	public void setPayment_id(int payment_id) {
+	public void setPayment_id(String payment_id) {
 		this.payment_id = payment_id;
 	}
 	public int getPayment_price() {

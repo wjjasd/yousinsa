@@ -4,16 +4,16 @@ import java.util.Date;
 
 public class PaymentVO {
 	
-	private int payment_id;  			//결제아이디
+	private String payment_id;  			//결제아이디
 	private String user_id;				//유저아이디
 	private int payment_price;			//결제 총 금액
 	private String payment_date;		//결제일
 	private String payment_destination;	//배송지
 	private int payment_delivery;		//배송상태 (-1:준비중, 0: 배송중, 1:배송완료)
-	public int getPayment_id() {
+	public String getPayment_id() {
 		return payment_id;
 	}
-	public void setPayment_id(int payment_id) {
+	public void setPayment_id(String payment_id) {
 		this.payment_id = payment_id;
 	}
 	public String getUser_id() {

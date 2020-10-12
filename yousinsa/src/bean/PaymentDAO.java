@@ -3,6 +3,7 @@ package bean;
 import java.sql.Connection;
 
 
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -48,12 +49,12 @@ public class PaymentDAO {
 	}
 
 	// 결제 내역 검색
-	public List<PaymentHistoryVO> name(String userId) throws Exception {
+	public List<PaymentHistoryVO> gethistory(String userId) throws Exception {
 		con = dbcp.getConnection();
 		List<PaymentHistoryVO> list = new ArrayList<>();
 		String sql = "select carts.cart_id, carts.user_id, carts.product_id, carts.cart_pcount, carts.cart_review_status,"
 				+ "carts.payment_id, payments.payment_price, payments.payment_date, payments.payment_destination, "
-				+ "payments.payment_delivery" + "from carts join payments "
+				+ "payments.payment_delivery" + " from carts join payments "
 				+ "where carts.payment_id = payments.payment_id and " + "carts.user_id = '" + userId + "'";
 		PreparedStatement ps = con.prepareStatement(sql);
 		// 4.sql문 실행
@@ -66,7 +67,7 @@ public class PaymentDAO {
 			vo.setProduct_id(rs.getInt("product_id"));
 			vo.setCart_pcount(rs.getInt("cart_pcount"));
 			vo.setCart_review_status(rs.getString("cart_review_status"));
-			vo.setPayment_id(rs.getInt("payment_id"));
+			vo.setPayment_id(rs.getString("payment_id"));
 			vo.setPayment_price(rs.getInt("payment_price"));
 			vo.setPayment_date(rs.getDate("payment_date"));
 			vo.setPayment_destination(rs.getString("payment_destination"));

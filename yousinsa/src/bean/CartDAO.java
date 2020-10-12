@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 public class CartDAO {
 
 	// 커넥터 설정
@@ -23,7 +21,7 @@ public class CartDAO {
 
 	// 장바구니 상품 추가
 	public boolean addItem(String userId, int productId, int pcount) throws Exception {
-		
+
 		con = dbcp.getConnection();
 		boolean result = false;
 		String sql = "insert into carts values (null, ?, ?, ?, null, 'n')";
@@ -41,7 +39,7 @@ public class CartDAO {
 		con.close();
 		ps.close();
 
-		dbcp.freeConnection(con,ps);
+		dbcp.freeConnection(con, ps);
 		return result;
 
 	}
@@ -73,14 +71,14 @@ public class CartDAO {
 		con.close();
 		ps.close();
 
-		dbcp.freeConnection(con,ps,rs);
+		dbcp.freeConnection(con, ps, rs);
 		return list;
 
 	}
 
 	// 사용자가 결제한 상품 검색
 	public List<CartVO> getPaidItems(String userId) throws Exception {
-		
+
 		con = dbcp.getConnection();
 		List<CartVO> list = new ArrayList<>();
 		String sql = "select * from carts where user_id = '" + userId + "' and payment_id is not null";
@@ -88,7 +86,7 @@ public class CartDAO {
 		// 4.sql문 실행
 		ResultSet rs = ps.executeQuery();
 		System.out.println("4. 네트워크로 전송 성공!");
-		
+
 		while (rs.next()) {
 			CartVO vo = new CartVO();
 			vo.setCart_id(rs.getInt("cart_id"));
@@ -107,7 +105,7 @@ public class CartDAO {
 		con.close();
 		ps.close();
 
-		dbcp.freeConnection(con,ps,rs);
+		dbcp.freeConnection(con, ps, rs);
 		return list;
 
 	}
@@ -122,7 +120,7 @@ public class CartDAO {
 		// 4.sql문 실행
 		ResultSet rs = ps.executeQuery();
 		System.out.println("4. 네트워크로 전송 성공!");
-	
+
 		while (rs.next()) {
 			CartVO vo = new CartVO();
 			vo.setCart_id(rs.getInt("cart_id"));
@@ -135,8 +133,8 @@ public class CartDAO {
 			System.out.println("리뷰할 아이템 목록 불러오는중...");
 		}
 
-		dbcp.freeConnection(con,ps,rs);
-		return list;	//상품 vo 들어간 리스트 반환
+		dbcp.freeConnection(con, ps, rs);
+		return list; // 상품 vo 들어간 리스트 반환
 
 	}
 
@@ -144,7 +142,7 @@ public class CartDAO {
 	public boolean deleteItem(int cart_id) throws Exception {
 
 		con = dbcp.getConnection();
-		String sql = "delete from carts where cart_id = "+ cart_id;
+		String sql = "delete from carts where cart_id = " + cart_id;
 		PreparedStatement ps = con.prepareStatement(sql);
 		System.out.println("3. sql문 생성 성공!");
 
@@ -159,8 +157,8 @@ public class CartDAO {
 
 		con.close();
 		ps.close();
-		
-		dbcp.freeConnection(con,ps);
+
+		dbcp.freeConnection(con, ps);
 		return result;
 
 	}
@@ -185,7 +183,7 @@ public class CartDAO {
 		con.close();
 		ps.close();
 
-		dbcp.freeConnection(con,ps);
+		dbcp.freeConnection(con, ps);
 		return result;
 	}
 
@@ -209,12 +207,12 @@ public class CartDAO {
 		con.close();
 		ps.close();
 
-		dbcp.freeConnection(con,ps);
+		dbcp.freeConnection(con, ps);
 		return result;
 
 	}
-	
-	//항목 결제ID UPDATE
+
+	// 항목 결제ID UPDATE
 	public boolean updatePaymentID(int cartId, String pId) throws Exception {
 
 		con = dbcp.getConnection();
@@ -234,9 +232,36 @@ public class CartDAO {
 		con.close();
 		ps.close();
 
-		dbcp.freeConnection(con,ps);
+		dbcp.freeConnection(con, ps);
 		return result;
 
 	}
 
+	// 판매량이 제일 높은 12개 상품 검색
+	public List<Integer> getHeighScoreItems() throws Exception {
+
+		con = dbcp.getConnection();
+		List<Integer> list = new ArrayList<>();
+		String sql = "select product_id, count(product_id) as ctn from carts "
+				+ "where payment_id is not null "
+				+ "group by product_id "
+				+ "order by ctn desc limit 12;";
+		PreparedStatement ps = con.prepareStatement(sql);
+		// 4.sql문 실행
+		ResultSet rs = ps.executeQuery();
+		System.out.println("4. 네트워크로 전송 성공!");
+
+		while (rs.next()) {
+			list.add(rs.getInt("product_id"));
+			System.out.println("추천상품 목록 불러오는중...");
+		}
+		// 읽기 실패시 null 반환
+		if (list.size() == 0) {
+			list = null;
+		}
+
+		dbcp.freeConnection(con, ps, rs);
+		return list;
+
+	}
 }

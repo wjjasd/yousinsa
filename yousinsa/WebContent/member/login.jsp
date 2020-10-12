@@ -8,5 +8,6 @@
 	if(result == 1){
 		logincheck = "로그인 성공!";
 		session.setAttribute("user_id", user_id);
+		System.out.println("login.jsp result == 1");
 	}
 	%><%= logincheck %>

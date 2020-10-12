@@ -1,15 +1,28 @@
+<%@page import="java.text.DecimalFormat"%>
+<%@page import="bean.ProductVO"%>
+<%@page import="bean.ProductDAO"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="bean.CartDAO"%>
 <%@page import="com.sun.xml.internal.bind.v2.runtime.Location"%>
 <%@page import="com.sun.java.swing.plaf.windows.resources.windows"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
 <%
-//로그인 아이디 체크
+	//로그인 아이디 체크
 String user_id = null;
 if (session.getAttribute("user_id") != null) {
 	user_id = (String) session.getAttribute("user_id");
 	System.out.println(user_id);
+	
 }
+DecimalFormat formatter = new DecimalFormat("###,###");
+
+//판매량 높은 아이템 6개 검색
+CartDAO cDao = new CartDAO();
+ArrayList<Integer> mainListPid = (ArrayList<Integer>) cDao.getHeighScoreItems();
+//상품정보 검색을 위한 DAO
+ProductDAO pdao = new ProductDAO();
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,7 +43,7 @@ if (session.getAttribute("user_id") != null) {
 
 		//로그아웃 클릭 이벤트
 		$("#logout").click(function() {
-			location.href="logout.jsp"
+			location.href = "logout.jsp"
 		})
 
 		//상단 메뉴바 검색아이콘 클릭이벤트
@@ -120,7 +133,7 @@ if (session.getAttribute("user_id") != null) {
 					<li class="nav-item"><a class="nav-link"
 						href="member/login.html">로그인</a></li>
 					<%
-						} else if (user_id == "admin") {
+						} else if (user_id.equals("admin")) {
 					%>
 					<li class="nav-item"><a class="nav-link" id="logout"
 						href="logout.jsp">로그아웃</a></li>
@@ -200,124 +213,29 @@ if (session.getAttribute("user_id") != null) {
 					</a>
 				</div>
 
+				<h3 style="padding-bottom: 20px">유신사 TOP 12</h3>
 				<div class="row">
 
+					<%
+						for (int i = 0; i < mainListPid.size(); i++) {
+						ProductVO pVo =  pdao.productsearch(mainListPid.get(i));
+					%>
+					<!-- item -->
 					<div class="col-lg-4 col-md-6 mb-4">
 						<div class="card h-100">
-							<a href="#"><img class="card-img-top"
-								src="http://placehold.it/700x400" alt=""></a>
+							<a href="product/productdetail.jsp?produt_name=<%=pVo.getProduct_name() %>"><img class="card-img-top"
+								src=<%=pVo.getProduct_image() %> alt=""></a>
 							<div class="card-body">
 								<h4 class="card-title">
-									<a href="#">Item One</a>
+									<a href="product/productdetail.jsp?produt_name=<%=pVo.getProduct_name() %>"><%=pVo.getProduct_name() %></a>
 								</h4>
-								<h5>19,999￦</h5>
-								<p class="card-text">Lorem ipsum dolor sit amet, consectetur
-									adipisicing elit. Amet numquam aspernatur!</p>
-							</div>
-							<div class="card-footer">
-								<small class="text-muted">&#9733; &#9733; &#9733;
-									&#9733; &#9734;</small>
+								<h5><%=formatter.format(pVo.getProduct_price()) %>￦</h5>
+								<p class="card-text"><%=pVo.getProduct_explanation() %></p>
 							</div>
 						</div>
 					</div>
-
-					<div class="col-lg-4 col-md-6 mb-4">
-						<div class="card h-100">
-							<a href="#"><img class="card-img-top"
-								src="http://placehold.it/700x400" alt=""></a>
-							<div class="card-body">
-								<h4 class="card-title">
-									<a href="#">Item Two</a>
-								</h4>
-								<h5>19,999￦</h5>
-								<p class="card-text">Lorem ipsum dolor sit amet, consectetur
-									adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor
-									sit amet.</p>
-							</div>
-							<div class="card-footer">
-								<small class="text-muted">&#9733; &#9733; &#9733;
-									&#9733; &#9734;</small>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-lg-4 col-md-6 mb-4">
-						<div class="card h-100">
-							<a href="#"><img class="card-img-top"
-								src="http://placehold.it/700x400" alt=""></a>
-							<div class="card-body">
-								<h4 class="card-title">
-									<a href="#">Item Three</a>
-								</h4>
-								<h5>19,999￦</h5>
-								<p class="card-text">Lorem ipsum dolor sit amet, consectetur
-									adipisicing elit. Amet numquam aspernatur!</p>
-							</div>
-							<div class="card-footer">
-								<small class="text-muted">&#9733; &#9733; &#9733;
-									&#9733; &#9734;</small>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-lg-4 col-md-6 mb-4">
-						<div class="card h-100">
-							<a href="#"><img class="card-img-top"
-								src="http://placehold.it/700x400" alt=""></a>
-							<div class="card-body">
-								<h4 class="card-title">
-									<a href="#">Item Four</a>
-								</h4>
-								<h5>19,999￦</h5>
-								<p class="card-text">Lorem ipsum dolor sit amet, consectetur
-									adipisicing elit. Amet numquam aspernatur!</p>
-							</div>
-							<div class="card-footer">
-								<small class="text-muted">&#9733; &#9733; &#9733;
-									&#9733; &#9734;</small>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-lg-4 col-md-6 mb-4">
-						<div class="card h-100">
-							<a href="#"><img class="card-img-top"
-								src="http://placehold.it/700x400" alt=""></a>
-							<div class="card-body">
-								<h4 class="card-title">
-									<a href="#">Item Five</a>
-								</h4>
-								<h5>19,999￦</h5>
-								<p class="card-text">Lorem ipsum dolor sit amet, consectetur
-									adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor
-									sit amet.</p>
-							</div>
-							<div class="card-footer">
-								<small class="text-muted">&#9733; &#9733; &#9733;
-									&#9733; &#9734;</small>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-lg-4 col-md-6 mb-4">
-						<div class="card h-100">
-							<a href="#"><img class="card-img-top"
-								src="http://placehold.it/700x400" alt=""></a>
-							<div class="card-body">
-								<h4 class="card-title">
-									<a href="#">Item Six</a>
-								</h4>
-								<h5>$24.99</h5>
-								<p class="card-text">Lorem ipsum dolor sit amet, consectetur
-									adipisicing elit. Amet numquam aspernatur!</p>
-							</div>
-							<div class="card-footer">
-								<small class="text-muted">&#9733; &#9733; &#9733;
-									&#9733; &#9734;</small>
-							</div>
-						</div>
-					</div>
-
+					<!-- item -->
+					<%} %>
 				</div>
 				<!-- /.row -->
 

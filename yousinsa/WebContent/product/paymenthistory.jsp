@@ -1,14 +1,30 @@
+<%@page import="bean.ProductVO"%>
+<%@page import="bean.ProductDAO"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="bean.PaymentDAO"%>
+<%@page import="bean.PaymentHistoryVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
 //로그인 아이디 체크
 String user_id = null;
-try {
-	user_id = (String)session.getAttribute("user_id");
-} catch (Exception e) {
-	user_id = null;
+if (session.getAttribute("user_id") != null) {
+	user_id = (String) session.getAttribute("user_id");
+	System.out.println(user_id);
 }
 
+//결제내역검색
+PaymentHistoryVO hisVo = new PaymentHistoryVO();
+PaymentDAO dao = new PaymentDAO();
+ArrayList<PaymentHistoryVO> list = (ArrayList<PaymentHistoryVO>) dao.gethistory(user_id);
+int itemCount = list.size();
+
+//상품정보검색
+ProductDAO pdao = new ProductDAO();
+ArrayList<ProductVO> productList = new ArrayList<ProductVO>();
+for(int i = 0; i < itemCount; i++){
+	productList.add(pdao.productsearch(list.get(i).getProduct_id()));
+}
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -90,8 +106,7 @@ try {
 					%>
 					<li class="nav-item"><a class="nav-link" id="logout"
 						href="../logout.jsp">로그아웃</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="cart.jsp">장바구니</a></li>
+					<li class="nav-item"><a class="nav-link" href="cart.jsp">장바구니</a></li>
 					<li class="nav-item  active"><a class="nav-link"
 						href="paymenthistory.jsp">결제내역</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">상품등록</a></li>
@@ -100,8 +115,7 @@ try {
 					%>
 					<li class="nav-item"><a class="nav-link" id="logout"
 						href="../logout.jsp">로그아웃</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="cart.jsp">장바구니</a></li>
+					<li class="nav-item"><a class="nav-link" href="cart.jsp">장바구니</a></li>
 					<li class="nav-item  active"><a class="nav-link"
 						href="paymenthistory.jsp">결제내역</a></li>
 					<%
@@ -119,199 +133,60 @@ try {
 			<!-- 결제건1 -->
 			<div
 				class="offset-xl-2 col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12 padding">
+
 				<div class="card">
-					<div class="card-header p-4">
-						<h3 class="mb-0">결제일 2020.09.28</h3>
-						<div class="float-right">결제번호 #BBB10234</div>
-					</div>
+
 					<div class="card-body">
-						<div class="row mb-4">
-							<div class="col-sm-6">
-								<h5 class="mb-3">From:</h5>
-								<h3 class="text-dark mb-1">YOUSINSA STORE</h3>
-								<div>29, Singla Street</div>
-								<div>Sikeston,New Delhi 110034</div>
-								<div>Email: contact@bbbootstrap.com</div>
-								<div>Phone: +91 9897 989 989</div>
-							</div>
-							<div class="col-sm-6 ">
-								<h5 class="mb-3">To:</h5>
-								<h3 class="text-dark mb-1">유저이름</h3>
-								<div>478, Nai Sadak</div>
-								<div>Chandni chowk, New delhi, 110006</div>
-								<div>Email: info@tikon.com</div>
-								<div>Phone: +91 9895 398 009</div>
-							</div>
-						</div>
+
+
 						<div class="table-responsive-sm">
+						<h3><%=user_id%>님의 결제내역 </h3><br>
 							<table class="table table-striped">
+
 								<thead>
 									<tr>
-										<th class="center">#</th>
-										<th>Item</th>
-										<th>Description</th>
-										<th class="right">Price</th>
-										<th class="center">Qty</th>
-										<th class="right">Total</th>
+										<th class="center">상품코드</th>
+										<th class="center">상품명</th>
+										<th class="center">주문자</th>
+										<th class="center">주문수량</th>
+										<th class="center">배송상태</th>
+										<th class="center">결제일</th>
 									</tr>
 								</thead>
+								<%
+									for (int i = 0; i < list.size(); i++) {
+										String delivery = "배송준비중";
+										switch(list.get(i).getPayment_delivery()){
+										case -1 : delivery = "배송준비중"; break;
+										case 0 : delivery = "배송중"; break;
+										case 1 : delivery = "배송완료"; break;
+										}
+								%>
 								<tbody>
 									<tr>
-										<td class="center">1</td>
-										<td class="left strong">Iphone 10X</td>
-										<td class="left">Iphone 10X with headphone</td>
-										<td class="right">$1500</td>
-										<td class="center">10</td>
-										<td class="right">$15,000</td>
-									</tr>
-									<tr>
-										<td class="center">2</td>
-										<td class="left">Iphone 8X</td>
-										<td class="left">Iphone 8X with extended warranty</td>
-										<td class="right">$1200</td>
-										<td class="center">10</td>
-										<td class="right">$12,000</td>
-									</tr>
-									<tr>
-										<td class="center">3</td>
-										<td class="left">Samsung 4C</td>
-										<td class="left">Samsung 4C with extended warranty</td>
-										<td class="right">$800</td>
-										<td class="center">10</td>
-										<td class="right">$8000</td>
-									</tr>
-									<tr>
-										<td class="center">4</td>
-										<td class="left">Google Pixel</td>
-										<td class="left">Google prime with Amazon prime
-											membership</td>
-										<td class="right">$500</td>
-										<td class="center">10</td>
-										<td class="right">$5000</td>
+										<td class="center"><%=list.get(i).getProduct_id()%></td>
+										<td class="center"><%=productList.get(i).getProduct_name()%></td>
+										<td class="center"><%=list.get(i).getUser_id()%></td>
+										<td class="center"><%=list.get(i).getCart_pcount()%></td>
+										<td class="center"><%=delivery%></td>
+										<td class="center"><%=list.get(i).getPayment_date()%></td>
 									</tr>
 								</tbody>
+								<%
+									}
+								%>
 							</table>
+
 						</div>
-						<div class="row">
-							<div class="col-lg-4 col-sm-5"></div>
-							<div class="col-lg-4 col-sm-5 ml-auto">
-								<table class="table table-clear">
-									<tbody>
-										<tr>
-											<td class="left"><strong class="text-dark">Total</strong>
-											</td>
-											<td class="right"><strong class="text-dark">$20,744,00</strong>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
-					<div class="card-footer bg-white">
-						<h3 class="mb-0">배송완료</h3>
+
+
 					</div>
 				</div>
+
+
 			</div>
-			
-			<br><!-- 결제건2 -->
-			
-			<div
-				class="offset-xl-2 col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12 padding">
-				<div class="card">
-					<div class="card-header p-4">
-						<h3 class="mb-0">결제일 2020.09.27</h3>
-						<div class="float-right">결제번호 #BBB10233</div>
-					</div>
-					<div class="card-body">
-						<div class="row mb-4">
-							<div class="col-sm-6">
-								<h5 class="mb-3">From:</h5>
-								<h3 class="text-dark mb-1">YOUSINSA STORE</h3>
-								<div>29, Singla Street</div>
-								<div>Sikeston,New Delhi 110034</div>
-								<div>Email: contact@bbbootstrap.com</div>
-								<div>Phone: +91 9897 989 989</div>
-							</div>
-							<div class="col-sm-6 ">
-								<h5 class="mb-3">To:</h5>
-								<h3 class="text-dark mb-1">유저이름</h3>
-								<div>478, Nai Sadak</div>
-								<div>Chandni chowk, New delhi, 110006</div>
-								<div>Email: info@tikon.com</div>
-								<div>Phone: +91 9895 398 009</div>
-							</div>
-						</div>
-						<div class="table-responsive-sm">
-							<table class="table table-striped">
-								<thead>
-									<tr>
-										<th class="center">#</th>
-										<th>Item</th>
-										<th>Description</th>
-										<th class="right">Price</th>
-										<th class="center">Qty</th>
-										<th class="right">Total</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td class="center">1</td>
-										<td class="left strong">Iphone 10X</td>
-										<td class="left">Iphone 10X with headphone</td>
-										<td class="right">$1500</td>
-										<td class="center">10</td>
-										<td class="right">$15,000</td>
-									</tr>
-									<tr>
-										<td class="center">2</td>
-										<td class="left">Iphone 8X</td>
-										<td class="left">Iphone 8X with extended warranty</td>
-										<td class="right">$1200</td>
-										<td class="center">10</td>
-										<td class="right">$12,000</td>
-									</tr>
-									<tr>
-										<td class="center">3</td>
-										<td class="left">Samsung 4C</td>
-										<td class="left">Samsung 4C with extended warranty</td>
-										<td class="right">$800</td>
-										<td class="center">10</td>
-										<td class="right">$8000</td>
-									</tr>
-									<tr>
-										<td class="center">4</td>
-										<td class="left">Google Pixel</td>
-										<td class="left">Google prime with Amazon prime
-											membership</td>
-										<td class="right">$500</td>
-										<td class="center">10</td>
-										<td class="right">$5000</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-						<div class="row">
-							<div class="col-lg-4 col-sm-5"></div>
-							<div class="col-lg-4 col-sm-5 ml-auto">
-								<table class="table table-clear">
-									<tbody>
-										<tr>
-											<td class="left"><strong class="text-dark">Total</strong>
-											</td>
-											<td class="right"><strong class="text-dark">$20,744,00</strong>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
-					<div class="card-footer bg-white">
-						<h3 class="mb-0">배송완료</h3>
-					</div>
-				</div>
-			</div>
+
+			<br>
 
 		</div>
 		<!-- /.row -->

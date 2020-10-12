@@ -224,7 +224,7 @@ String moneyFormate = formatter.format(moneySum);
 									</div>
 									<div class="d-flex justify-content-between align-items-center">
 										<div>
-											<a href="deleteCartItem.jsp?pid=<%=list.get(i).getProduct_id()%>" type="button"
+											<a href="deleteCartItem.jsp?cid=<%=list.get(i).getCart_id()%>" type="button"
 												class="card-link-secondary small text-uppercase mr-3"><i
 												class="fas fa-trash-alt mr-1"></i> 항목 삭제하기 </a>
 										</div>

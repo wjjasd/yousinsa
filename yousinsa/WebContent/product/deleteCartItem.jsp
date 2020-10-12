@@ -2,9 +2,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	int pid = Integer.parseInt(request.getParameter("pid"));
-	String userId = (String)session.getAttribute("user_id");
+	int cid = Integer.parseInt(request.getParameter("cid"));
 	CartDAO dao = new CartDAO();
-	dao.deleteItem(userId, pid);
+	dao.deleteItem(cid);
 	response.sendRedirect("cart.jsp");
 %>
