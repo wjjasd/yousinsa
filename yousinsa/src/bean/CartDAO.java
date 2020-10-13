@@ -36,8 +36,6 @@ public class CartDAO {
 		if (row == 1) {
 			result = true;
 		}
-		con.close();
-		ps.close();
 
 		dbcp.freeConnection(con, ps);
 		return result;
@@ -63,13 +61,11 @@ public class CartDAO {
 			vo.setUser_id(rs.getString("user_id"));
 			vo.setProduct_id(rs.getInt("product_id"));
 			vo.setCart_pcount(rs.getInt("cart_pcount"));
-			vo.setPayment_id(rs.getInt("payment_id"));
+			vo.setPayment_id(rs.getString("payment_id"));
 			vo.setCart_review_status(rs.getString("cart_id"));
 			list.add(vo);
 			System.out.println("장바구니 목록 불러오는중...");
 		}
-		con.close();
-		ps.close();
 
 		dbcp.freeConnection(con, ps, rs);
 		return list;
@@ -93,7 +89,7 @@ public class CartDAO {
 			vo.setUser_id(rs.getString("user_id"));
 			vo.setProduct_id(rs.getInt("product_id"));
 			vo.setCart_pcount(rs.getInt("cart_pcount"));
-			vo.setPayment_id(rs.getInt("payment_id"));
+			vo.setPayment_id(rs.getString("payment_id"));
 			vo.setCart_review_status(rs.getString("cart_id"));
 			list.add(vo);
 			System.out.println("결제 목록 불러오는중...");
@@ -102,8 +98,6 @@ public class CartDAO {
 		if (list.size() == 0) {
 			list = null;
 		}
-		con.close();
-		ps.close();
 
 		dbcp.freeConnection(con, ps, rs);
 		return list;
@@ -115,7 +109,7 @@ public class CartDAO {
 		con = dbcp.getConnection();
 		List<CartVO> list = new ArrayList<>(); // 상품아이디로 검색한 상품 vo리스트
 		String sql = "select * from carts where user_id = '" + userId
-				+ "' and payment_id is not null and cart_review_status = 'n'";
+				+ "' and payment_id is not null and cart_review_status = 'n' group by product_id";
 		PreparedStatement ps = con.prepareStatement(sql);
 		// 4.sql문 실행
 		ResultSet rs = ps.executeQuery();
@@ -127,7 +121,7 @@ public class CartDAO {
 			vo.setUser_id(rs.getString("user_id"));
 			vo.setProduct_id(rs.getInt("product_id"));
 			vo.setCart_pcount(rs.getInt("cart_pcount"));
-			vo.setPayment_id(rs.getInt("payment_id"));
+			vo.setPayment_id(rs.getString("payment_id"));
 			vo.setCart_review_status(rs.getString("cart_review_status"));
 			list.add(vo);
 			System.out.println("리뷰할 아이템 목록 불러오는중...");
@@ -154,13 +148,8 @@ public class CartDAO {
 		if (row == 1) {
 			result = true;
 		}
-
-		con.close();
-		ps.close();
-
 		dbcp.freeConnection(con, ps);
 		return result;
-
 	}
 
 	// 장바구니 수량 변경
@@ -179,10 +168,6 @@ public class CartDAO {
 		if (row == 1) {
 			result = true;
 		}
-
-		con.close();
-		ps.close();
-
 		dbcp.freeConnection(con, ps);
 		return result;
 	}
@@ -203,9 +188,6 @@ public class CartDAO {
 		if (row == 1) {
 			result = true;
 		}
-
-		con.close();
-		ps.close();
 
 		dbcp.freeConnection(con, ps);
 		return result;
@@ -229,12 +211,8 @@ public class CartDAO {
 			result = true;
 		}
 
-		con.close();
-		ps.close();
-
 		dbcp.freeConnection(con, ps);
 		return result;
-
 	}
 
 	// 판매량이 제일 높은 12개 상품 검색

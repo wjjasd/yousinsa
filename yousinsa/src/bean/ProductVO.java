@@ -9,6 +9,7 @@ public class ProductVO {
 	int product_inventory;
 	String product_image;
 
+
 	public int getProduct_id() {
 		return product_id;
 	}

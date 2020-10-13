@@ -1,3 +1,4 @@
+<%@page import="java.sql.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="bean.MemberVO"%>
@@ -186,7 +187,7 @@ String datestr = sdf.format(cal.getTime());
 					<li class="nav-item"><a class="nav-link"
 						href="../member/login.html">로그인</a></li>
 					<%
-						} else if (user_id == "admin") {
+						} else if (user_id.equals("admin")) {
 					%>
 					<li class="nav-item"><a class="nav-link" id="logout"
 						href="../logout.jsp">로그아웃</a></li>

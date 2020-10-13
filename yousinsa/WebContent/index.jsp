@@ -1,3 +1,4 @@
+<%@page import="java.util.List"%>
 <%@page import="java.text.DecimalFormat"%>
 <%@page import="bean.ProductVO"%>
 <%@page import="bean.ProductDAO"%>
@@ -9,14 +10,19 @@
 	pageEncoding="UTF-8"%>
 
 <%
-	//로그인 아이디 체크
+//로그인 아이디 체크
 String user_id = null;
 if (session.getAttribute("user_id") != null) {
 	user_id = (String) session.getAttribute("user_id");
 	System.out.println(user_id);
 	
 }
+//가격표시 포멧
 DecimalFormat formatter = new DecimalFormat("###,###");
+
+//최근등록상품검색
+ProductDAO dao = new ProductDAO();
+List<ProductVO> list = dao.recentimgsearch();
 
 //판매량 높은 아이템 6개 검색
 CartDAO cDao = new CartDAO();
@@ -115,6 +121,7 @@ ProductDAO pdao = new ProductDAO();
 					</div>
 				</div>
 			</div>
+				
 			<!-- sidebar-search  -->
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#navbarResponsive" aria-controls="navbarResponsive"
@@ -141,7 +148,7 @@ ProductDAO pdao = new ProductDAO();
 						href="product/cart.jsp">장바구니</a></li>
 					<li class="nav-item"><a class="nav-link"
 						href="product/paymenthistory.jsp">결제내역</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">상품등록</a></li>
+					<li class="nav-item"><a class="nav-link" href="product/productregister.jsp">상품등록</a></li>
 					<%
 						} else {
 					%>
@@ -166,7 +173,7 @@ ProductDAO pdao = new ProductDAO();
 
 			<div class="col-lg-3">
 
-				<div class="list-group">
+				<div style="position: fixed; left: 0x; top: 60px; width: 250px; color: blue; cursor: pointer" class="list-group">
 					<a id="allproduct" class="list-group-item">전체상품</a> <a id="shirts"
 						class="list-group-item">상의</a> <a id="pants"
 						class="list-group-item">하의</a> <a id="onepieces"
@@ -179,8 +186,10 @@ ProductDAO pdao = new ProductDAO();
 			<!-- /.col-lg-3 -->
 
 			<div class="col-lg-9">
+			
+				<h3 style="padding-top: 30px">유신사 신상품 프로모션</h3>
 
-				<div id="carouselExampleIndicators" class="carousel slide my-4"
+				<div style="background-color: gray;" id="carouselExampleIndicators" class="carousel slide my-4"
 					data-ride="carousel">
 					<ol class="carousel-indicators">
 						<li data-target="#carouselExampleIndicators" data-slide-to="0"
@@ -190,15 +199,15 @@ ProductDAO pdao = new ProductDAO();
 					</ol>
 					<div class="carousel-inner" role="listbox">
 						<div class="carousel-item active">
-							<img class="d-block img-fluid" src="images/s1.png"
+							<img style="display:block; margin:0 auto; width:600px; height:400px;" class="d-block img-fluid" src=<%=list.get(0).getProduct_image()%>
 								alt="First slide">
 						</div>
 						<div class="carousel-item">
-							<img class="d-block img-fluid" src="images/s2.png"
+							<img style="display:block; margin:0 auto; width:600px; height:400px;" style="width:500px; height:400px;" class="d-block img-fluid" src=<%=list.get(1).getProduct_image()%>
 								alt="Second slide">
 						</div>
 						<div class="carousel-item">
-							<img class="d-block img-fluid" src="images/s3.png"
+							<img style="display:block; margin:0 auto; width:600px; height:400px;" style="width:500px; height:400px;" class="d-block img-fluid" src=<%=list.get(2).getProduct_image()%>
 								alt="Third slide">
 						</div>
 					</div>
@@ -223,11 +232,12 @@ ProductDAO pdao = new ProductDAO();
 					<!-- item -->
 					<div class="col-lg-4 col-md-6 mb-4">
 						<div class="card h-100">
-							<a href="product/productdetail.jsp?produt_name=<%=pVo.getProduct_name() %>"><img class="card-img-top"
+							<a href="product/productdetail.jsp?product_name=<%=pVo.getProduct_name()%>">
+							<img class="card-img-top" style="width:254px; height:200px;"
 								src=<%=pVo.getProduct_image() %> alt=""></a>
 							<div class="card-body">
 								<h4 class="card-title">
-									<a href="product/productdetail.jsp?produt_name=<%=pVo.getProduct_name() %>"><%=pVo.getProduct_name() %></a>
+									<a href="product/productdetail.jsp?product_name=<%=pVo.getProduct_name() %>"><%=pVo.getProduct_name() %></a>
 								</h4>
 								<h5><%=formatter.format(pVo.getProduct_price()) %>￦</h5>
 								<p class="card-text"><%=pVo.getProduct_explanation() %></p>

@@ -10,6 +10,9 @@ body {
 div.list-group{
 	 padding-top: 30px;
 }
+div.list-group:hover{
+	 cursor: pointer;
+}
 
 .input-group-text:hover {
 	background-color: darkgray;

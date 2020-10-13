@@ -14,6 +14,7 @@
    	String user_contact = request.getParameter("user_contact");
    	String user_address = request.getParameter("user_address");
    	String user_address2 = request.getParameter("user_address2");
+   	user_address2 = user_address2.replaceAll("\\s", "");
    	String user_address3 = request.getParameter("user_address3");
 
    	String user_address_total = user_address + " " + user_address2 + " "+ user_address3;

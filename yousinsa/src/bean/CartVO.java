@@ -6,7 +6,7 @@ public class CartVO {
 	private String user_id;				//장바구니의 주인
 	private int product_id;			//장바구니에 담긴 상품 식별자
 	private int cart_pcount;			//상품의 수량
-	private int payment_id;				//상품의 결제 여부&id, null인경우 미결제
+	private String payment_id;				//상품의 결제 여부&id, null인경우 미결제
 	private String cart_review_status;	//상품의 리부 여부 default 'n' == 쓰여지지 않음
 	
 	public int getCart_id() {
@@ -33,10 +33,10 @@ public class CartVO {
 	public void setCart_pcount(int cart_pcount) {
 		this.cart_pcount = cart_pcount;
 	}
-	public int getPayment_id() {
+	public String getPayment_id() {
 		return payment_id;
 	}
-	public void setPayment_id(int payment_id) {
+	public void setPayment_id(String payment_id) {
 		this.payment_id = payment_id;
 	}
 	public String getCart_review_status() {
@@ -45,7 +45,5 @@ public class CartVO {
 	public void setCart_review_status(String cart_review_status) {
 		this.cart_review_status = cart_review_status;
 	}
-	
-	
 
 }

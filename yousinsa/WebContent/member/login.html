@@ -11,40 +11,18 @@
 <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="../css/login.css" rel="stylesheet">
 
-<script type="text/javascript">
 
-	$(function() {
-		$('#login').click(function(){
-				$.ajax({
-					url: "login.jsp",
-					data: {
-						user_id: $('#user_id').val(),
-						user_password: $('#user_password').val()
-					},
-					success : function(logincheck){
-						alert(logincheck);
-						if(logincheck == "로그인 성공!"){
-							document.location.href="../index.jsp";
-						}
-						
-					}
-				
-				});//ajax
-			});//keyup
-	});
-
-</script>
 
 </head>
 <body>
 
   <div class="wrapper">
-    <form class="form-login">       
+    <form action="login.jsp" class="form-login">       
       <h2 class="title">YOUSINSA</h2>
       <br>
-      <input type="text" id="user_id" placeholder="아이디 입력" required="" autofocus="" style="margin-bottom:15px; padding:5px" size=37/>
+      <input type="text" id="user_id" name="user_id" placeholder="아이디 입력" required="" autofocus="" style="margin-bottom:15px; padding:5px" size=37/>
 
-      <input type="password" id="user_password" placeholder="비밀번호 입력" required="" style="margin-bottom:5px;padding:5px" size=37/>      
+      <input type="password" id="user_password" name="user_password" placeholder="비밀번호 입력" required="" style="margin-bottom:5px;padding:5px" size=37/>      
 		
 		<div id="checkdiv" style="margin-bottom:10px;"></div>	
 		

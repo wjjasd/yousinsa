@@ -8,6 +8,9 @@
 	if(result == 1){
 		logincheck = "로그인 성공!";
 		session.setAttribute("user_id", user_id);
-		System.out.println("login.jsp result == 1");
-	}
-	%><%= logincheck %>
+		response.sendRedirect("../index.jsp");
+		}else{%>
+	<script>
+    	alert("아이디와 비번을 다시 확인해 주세요."); history.go(-1);
+    	</script>
+    <%}%>

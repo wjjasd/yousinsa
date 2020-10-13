@@ -1,0 +1,94 @@
+
+/* 배경 */
+body {
+  padding-top: 56px;
+}
+
+div.list-group{
+	 padding-top: 30px;
+}
+
+.input-group-text:hover {
+	background-color: darkgray;
+}
+
+
+.starRev {
+    width: 70%;
+	height: 530px;
+	float: right;
+	margin-top: 2.5%;
+	margin-left: 20%;
+	margin-bottom: 5%;
+	background-color: #EFF5FB;
+	border-radius: 10px;
+	padding: 30px;
+
+  }
+ 
+
+.col1{
+	width: 30%;
+	text-align: center;
+
+}
+.selec{
+	padding-left: 20%;
+}
+
+select{
+	width: 40%;
+}
+
+.score{
+	padding-left: 20%;
+}
+
+.col2{
+	padding-left: 5%;
+}
+
+/* 별점*/
+.starR1{
+    background: url('http://miuu227.godohosting.com/images/icon/ico_review.png') no-repeat -52px 0;
+    background-size: auto 100%;
+    width: 15px;
+    height: 30px;
+    float:left;
+    text-indent: -9999px;
+    cursor: pointer;
+}
+.starR2{
+    background: url('http://miuu227.godohosting.com/images/icon/ico_review.png') no-repeat right 0;
+    background-size: auto 100%;
+    width: 15px;
+    height: 30px;
+    float:left;
+    text-indent: -9999px;
+    cursor: pointer;
+}
+.starR1.on{background-position:0 0;}
+.starR2.on{background-position:-15px 0;}
+
+
+textarea{
+	width: 350px;
+	height: 150px;
+	resize: none;
+	border: 1px solid #E0ECF8;
+	margin-left: 15px;
+	float: left;
+}
+
+button{
+	width: 90px;
+	height: 25px;
+	background-color: #434e98;
+	font-size: 14px;
+	color: white;
+	border-radius: 8px;
+	border: 0;
+	outline: 0;
+	float: right;
+	margin-right: 3%;
+}

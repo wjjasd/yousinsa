@@ -1,0 +1,47 @@
+@charset "EUC-KR";
+
+/*!
+ * Start Bootstrap - Shop Homepage (https://startbootstrap.com/templates/shop-homepage)
+ * Copyright 2013-2020 Start Bootstrap
+ * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-shop-homepage/blob/master/LICENSE)
+ */
+body {
+  padding-top: 56px;
+}
+
+div.list-group{
+	 padding-top: 30px;
+}
+
+.input-group-text:hover {
+	background-color: darkgray;
+}
+
+/* 후기작성 버튼 */
+.write{
+	width: 100px;
+	height: 30px;
+	margin: 55px 0px 0px 35px;
+	border-radius: 5px;
+	color: white;
+	background-color: gray;
+	border: 0;
+	outline: 0;
+}
+.review{
+	text-decoration: none;
+	color: white;
+}
+.review:hover{
+	text-decoration: none;
+	color: black;
+}
+/**/
+.row{
+	margin-left: 200px;
+}
+
+
+#review_content{
+	width: 30%;
+}

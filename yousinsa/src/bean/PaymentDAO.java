@@ -55,7 +55,7 @@ public class PaymentDAO {
 		String sql = "select carts.cart_id, carts.user_id, carts.product_id, carts.cart_pcount, carts.cart_review_status,"
 				+ "carts.payment_id, payments.payment_price, payments.payment_date, payments.payment_destination, "
 				+ "payments.payment_delivery" + " from carts join payments "
-				+ "where carts.payment_id = payments.payment_id and " + "carts.user_id = '" + userId + "'";
+				+ "where carts.payment_id = payments.payment_id and " + "carts.user_id = '" + userId + "' order by cart_id desc";
 		PreparedStatement ps = con.prepareStatement(sql);
 		// 4.sql문 실행
 		ResultSet rs = ps.executeQuery();

@@ -102,7 +102,7 @@ for(int i = 0; i < itemCount; i++){
 					<li class="nav-item"><a class="nav-link"
 						href="../member/login.jsp">로그인</a></li>
 					<%
-						} else if (user_id == "admin") {
+						} else if (user_id.equals("admin")) {
 					%>
 					<li class="nav-item"><a class="nav-link" id="logout"
 						href="../logout.jsp">로그아웃</a></li>
@@ -131,16 +131,15 @@ for(int i = 0; i < itemCount; i++){
 
 		<div class="row">
 			<!-- 결제건1 -->
-			<div
-				class="offset-xl-2 col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12 padding">
+			<div style="margin-left: 0" class="offset-xl-2 col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12 padding">
 
-				<div class="card">
+				<div style="width:150%;" class="card">
 
 					<div class="card-body">
 
 
 						<div class="table-responsive-sm">
-						<h3><%=user_id%>님의 결제내역 </h3><br>
+						<h3><%=user_id%>님의 결제내역 (최신순) </h3><br>
 							<table class="table table-striped">
 
 								<thead>
